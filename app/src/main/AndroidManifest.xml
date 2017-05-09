@@ -21,7 +21,8 @@
         <activity
             android:name=".activity.MainActivity"
             android:label="Messages"
-            android:theme="@style/AppTheme_NoActionBar"></activity>
+            android:theme="@style/AppTheme_NoActionBar"
+            android:screenOrientation="portrait" ></activity>
     </application>
 
 </manifest>
