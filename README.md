@@ -3,6 +3,8 @@ Fixed repo, fixed app
 
 This is a chat / messenger style app, developed for an Ora Interactive code challenge. Note that it does not interact with the provided apiary's API, but instead a legitimate database (Firebase). This choice was made to hopefully show initiative to improve upon given standards. I do not want to devalue the concept of following rules and guidelines, as in a company setting these values are essential.
 
+APP SCREENSHOTS:  https://www.dropbox.com/sh/d59n1vm2svflsyr/AAB8JQl7aRnhSPBJCA49mKQNa?dl=0
+
 Deployment: I actually messed up the structure of the repo on my initial commit. The original repo can be found at https://github.com/HuntMiller/OraChat (contains commits).
 
 1. Open Android Studio
