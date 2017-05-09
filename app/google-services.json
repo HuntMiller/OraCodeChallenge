@@ -1,0 +1,45 @@
+{
+  "project_info": {
+    "project_number": "160661605014",
+    "firebase_url": "https://oracodechallenge.firebaseio.com",
+    "project_id": "oracodechallenge",
+    "storage_bucket": "oracodechallenge.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:160661605014:android:3021abf1e97885a8",
+        "android_client_info": {
+          "package_name": "com.ora.hmill.codechallenge"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "160661605014-8l131j4nc44mft9k1icq8dbsff7lqenr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB6CQcfRamQd8kVFfNf3twTMLzQUGoSqx0"
+        },
+        {
+          "current_key": "AIzaSyCQCiZ8TnLRdeDPb3bpeD4UV1eqTu0ffe4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
