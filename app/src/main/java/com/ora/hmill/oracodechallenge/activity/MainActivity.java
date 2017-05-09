@@ -89,8 +89,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private ImageView profile_pic;
     private FloatingActionButton fab;
     private CoordinatorLayout snackbarLayout;
-    public static String CURRENT_TAG = TAG_MESSAGE_LIST;
-    public static int navigationIndex = 0;
+    public static String CURRENT_TAG;
+    public static int navigationIndex;
     public static FirebaseAuth mAuth;
     public static String currentUser, currentEmail, currentUID, currentURL, currentNick, currentBirthday, currentAboutMe;
     public static GoogleApiClient mGoogleApiClient;
@@ -503,8 +503,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     // show or hide the fab
     private void toggleFab() {
-        if (navigationIndex == 0)
+        if (navigationIndex == 0){
             fab.show();
+        }
+
         else
             fab.hide();
     }
