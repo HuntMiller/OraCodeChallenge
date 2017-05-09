@@ -56,11 +56,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.ora.hmill.oracodechallenge.R;
-import com.ora.hmill.oracodechallenge.fragment.MessageFragment;
+import com.ora.hmill.oracodechallenge.fragment.MessageHistoryFragment;
 import com.ora.hmill.oracodechallenge.fragment.MessageListFragment;
 import com.ora.hmill.oracodechallenge.fragment.ProfileFragment;
 import com.ora.hmill.oracodechallenge.fragment.SelectUserToMessageFragment;
 import com.ora.hmill.oracodechallenge.fragment.WelcomeFragment;
+import com.ora.hmill.oracodechallenge.other.Constants;
 import com.ora.hmill.oracodechallenge.other.User;
 
 import java.io.InputStream;
@@ -70,25 +71,15 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    private static final int RC_SIGN_IN = 0;
-    private static final String TAG = "mainActivityD";
-    private static final String TAG_WELCOME = "welcome";
-    private static final String TAG_MESSAGES = "messages";
-    private static final String TAG_SELECT_USER_TO_MESSAGE = "select_user";
-    private static final String TAG_MESSAGE_LIST = "messagelist";
-    public static final String TAG_MESSAGE_HISTORY = "messagehistory";
-    private static final String TAG_PROFILE = "profile";
-    private static final String TAG_LOGOUT = "logout";
     private Toolbar toolbar;
     private DrawerLayout drawer;
-    private String[] activityTitles;
     private Handler mHandler;
     private NavigationView navigationView;
     private View headerView;
     private TextView name_TextView, email_TextView;
     private ImageView profile_pic;
     private FloatingActionButton fab;
-    private CoordinatorLayout snackbarLayout;
+
     public static String CURRENT_TAG;
     public static int navigationIndex;
     public static FirebaseAuth mAuth;
@@ -102,14 +93,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initWidgets();
-        checkIfLogin();
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        //Check if user just logged in
+        checkIfLogin();
         //get user data
         getUserInfo();
+        //setup Navigation header and view
         navSetup();
     }
 
@@ -132,13 +125,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (true) {
             //if not on messages, back returns to message fragment
-            if (navigationIndex != 0) {
-                navigationIndex = 0;
-                CURRENT_TAG = TAG_MESSAGE_LIST;
+            if (navigationIndex != Constants.INDEX_MESSAGE_LIST) {
+                navigationIndex = Constants.INDEX_MESSAGE_LIST;
+                CURRENT_TAG = Constants.TAG_MESSAGE_LIST;
                 loadHomeFragment(true);
                 return;
             }
-            if (navigationIndex == 0 && !drawer.isDrawerOpen(GravityCompat.START)) {
+            if (navigationIndex == Constants.INDEX_MESSAGE_LIST && !drawer.isDrawerOpen(GravityCompat.START)) {
                 this.finishAffinity();
             }
         }
@@ -151,7 +144,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Inflate the menu; this adds items to the action bar if it is present.
 
         // show menu only when home fragment is selected
-        if (navigationIndex == 0) {
+        if (navigationIndex == Constants.INDEX_MESSAGE_LIST) {
             getMenuInflater().inflate(R.menu.main, menu);
         }
 
@@ -175,9 +168,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //If user just logged in make sure app is on message list, then set to false so screen rotations don't mess things up
         if (i.getBooleanExtra("login", false)) {
             //Set to welcome screen
-            navigationIndex = 99;
-            CURRENT_TAG = TAG_WELCOME;
+            navigationIndex = Constants.INDEX_WELCOME;
+            CURRENT_TAG = Constants.TAG_WELCOME;
             loadHomeFragment(false);
+            setToolbarTitle("Welcome " + mAuth.getCurrentUser().getDisplayName());
             i.putExtra("login", false);
         }
     }
@@ -193,22 +187,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         email_TextView = (TextView) headerView.findViewById(R.id.drawer_email_textview);
         profile_pic = (ImageView) headerView.findViewById(R.id.drawer_imageView);
         fab = (FloatingActionButton) findViewById(R.id.fab);
-        snackbarLayout = (CoordinatorLayout) findViewById(R.id.snackbar_layout);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
 
         setSupportActionBar(toolbar);
         mHandler = new Handler();
-        activityTitles = getResources().getStringArray(R.array.nav_item_titles);
 
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                navigationIndex = 11;
-                CURRENT_TAG = TAG_SELECT_USER_TO_MESSAGE;
+                navigationIndex = Constants.INDEX_SELECT_USER_TO_MSG;
+                CURRENT_TAG = Constants.TAG_SELECT_USER_TO_MESSAGE;
                 loadHomeFragment(false);
-                getSupportActionBar().setTitle("Send a message to...");
             }
         });
 
@@ -315,7 +306,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         //Not you, populate users list
                         if (!TextUtils.equals(user.uid, currentUID)) {
                             users.add(user);
-                            Log.d(TAG, "Populating user list with: " + user.email);
+                            Log.d(Constants.TAG, "Populating user list with: " + user.email);
                         }
                         //this is you
                         if (TextUtils.equals(user.uid, mAuth.getCurrentUser().getUid())) {
@@ -323,7 +314,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             currentBirthday = user.birthday;
                             currentAboutMe = user.aboutme;
                             updateYourDatabaseInfo(user);
-                            Log.d(TAG, "Updated your profile data");
+                            Log.d(Constants.TAG, "Updated your profile data");
                         }
                     }
                 }
@@ -334,7 +325,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
             });
         } catch (NullPointerException e) {
-            Log.d(TAG, "navigation null: " + e);
+            Log.d(Constants.TAG, "navigation null: " + e);
         }
     }
 
@@ -399,7 +390,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.messages) {
+        if (id == R.id.message_list) {
 
         } else if (id == R.id.profile) {
 
@@ -421,11 +412,42 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         new DownloadImageTask(profile_pic).execute(currentURL);
     }
 
+    private void setToolbarTitle(String title){
+        String defTitle = "error";
+        switch(navigationIndex){
+            case Constants.INDEX_MESSAGE_HISTORY:
+                defTitle = title;
+                break;
+            case Constants.INDEX_WELCOME:
+                defTitle = title;
+                break;
+        }
+        if(!defTitle.equals("error"))
+            getSupportActionBar().setTitle(defTitle);
+    }
+
     /*
-    Set title of toolbar to go with the selected fragment
+    Set title of toolbar from a constant
      */
     private void setToolbarTitle() {
-        getSupportActionBar().setTitle(activityTitles[navigationIndex]);
+        String title = "error";
+        switch(navigationIndex){
+
+            case Constants.INDEX_MESSAGE_LIST:
+                title = Constants.MESSAGE_LIST_TOOLBAR_TITLE;
+                break;
+            case Constants.INDEX_PROFILE:
+                title = Constants.PROFILE_TOOLBAR_TITLE;
+                break;
+            case Constants.INDEX_LOGOUT:
+                title = Constants.LOGOUT_TOOLBAR_TITLE;
+                break;
+            case Constants.INDEX_SELECT_USER_TO_MSG:
+                title = Constants.SELECT_USER_TO_MESSAGE_TOOLBAR_TITLE;
+                break;
+        }
+        if(!title.equals("error"))
+            getSupportActionBar().setTitle(title);
     }
 
     /*
@@ -448,20 +470,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 //Check to see which item was being clicked and perform appropriate action
                 switch (menuItem.getItemId()) {
-                    case R.id.messages:
-                        navigationIndex = 0;
-                        CURRENT_TAG = TAG_MESSAGE_LIST;
+                    case R.id.message_list:
+                        navigationIndex = Constants.INDEX_MESSAGE_LIST;
+                        CURRENT_TAG = Constants.TAG_MESSAGE_LIST;
                         break;
                     case R.id.profile:
-                        navigationIndex = 1;
-                        CURRENT_TAG = TAG_PROFILE;
+                        navigationIndex = Constants.INDEX_PROFILE;
+                        CURRENT_TAG = Constants.TAG_PROFILE;
                         break;
                     case R.id.logout:
-                        navigationIndex = 2;
+                        navigationIndex = Constants.INDEX_LOGOUT;
                         signOut();
                         break;
                     default:
-                        navigationIndex = 0;
+                        navigationIndex = Constants.INDEX_MESSAGE_LIST;
                 }
 
                 //Check if the item is in checked state or not, if not make it checked
@@ -503,7 +525,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     // show or hide the fab
     private void toggleFab() {
-        if (navigationIndex == 0){
+        if (navigationIndex == Constants.INDEX_MESSAGE_LIST){
             fab.show();
         }
 
@@ -525,11 +547,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     Call when loading fragment from another fragment (message fragment)
      */
     public void loadHomeFragment(String tag, User user){
-        if(tag == TAG_MESSAGE_HISTORY){
+        if(tag == Constants.TAG_MESSAGE_HISTORY){
             selectedUser = user;
-            getSupportActionBar().setTitle(user.email);
-            navigationIndex = 12;
+            navigationIndex = Constants.INDEX_MESSAGE_HISTORY;
             CURRENT_TAG = tag;
+            setToolbarTitle(user.email);
         }
         loadHomeFragment(false);
     }
@@ -539,12 +561,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
      * selected from navigation menu
      */
     public void loadHomeFragment(boolean isNavigation) {
+        //If the item is an item on the navigation menu, set it as selected
         if (isNavigation) {
             // selecting appropriate nav menu item
             selectNavMenu();
-            // set toolbar title
-            setToolbarTitle();
         }
+
+        // set toolbar title
+        setToolbarTitle();
 
         // if user select the current navigation menu again, don't do anything
         // just close the navigation drawer
@@ -586,21 +610,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private Fragment getHomeFragment() {
         switch (navigationIndex) {
-            case 99:
+            case Constants.INDEX_WELCOME:
                 WelcomeFragment welcomeFragment = new WelcomeFragment();
                 return welcomeFragment;
-            case 0:
+            case Constants.INDEX_MESSAGE_LIST:
                 MessageListFragment messageListFragment = new MessageListFragment();
                 return messageListFragment;
-            case 1:
+            case Constants.INDEX_PROFILE:
                 ProfileFragment profileFragment = new ProfileFragment();
                 return profileFragment;
-            case 11:
+            case Constants.INDEX_SELECT_USER_TO_MSG:
                 SelectUserToMessageFragment selectUserToMessageFragment = new SelectUserToMessageFragment();
                 return selectUserToMessageFragment;
-            case 12:
-                MessageFragment messageFragment = new MessageFragment();
-                return messageFragment;
+            case Constants.INDEX_MESSAGE_HISTORY:
+                MessageHistoryFragment messageHistoryFragment = new MessageHistoryFragment();
+                return messageHistoryFragment;
             default:
                 return new MessageListFragment();
         }

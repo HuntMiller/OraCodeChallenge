@@ -16,7 +16,6 @@
 
 package com.ora.hmill.oracodechallenge.fragment;
 
-import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -38,6 +37,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.ora.hmill.oracodechallenge.R;
 import com.ora.hmill.oracodechallenge.activity.MainActivity;
 import com.ora.hmill.oracodechallenge.other.ChatMessage;
+import com.ora.hmill.oracodechallenge.other.Constants;
 import com.ora.hmill.oracodechallenge.other.User;
 
 import java.util.ArrayList;
@@ -110,7 +110,7 @@ public class MessageListFragment extends Fragment {
                         u.aboutme = user.aboutme;
                     }
                 }
-                ((MainActivity)getActivity()).loadHomeFragment(MainActivity.TAG_MESSAGE_HISTORY, u);
+                ((MainActivity)getActivity()).loadHomeFragment(Constants.TAG_MESSAGE_HISTORY, u);
             }
         });
         return v;

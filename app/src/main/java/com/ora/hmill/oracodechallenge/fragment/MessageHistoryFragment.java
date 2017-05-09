@@ -16,7 +16,6 @@
 
 package com.ora.hmill.oracodechallenge.fragment;
 
-import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -45,7 +44,7 @@ import com.ora.hmill.oracodechallenge.other.CustomAdapter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
-public class MessageFragment extends Fragment {
+public class MessageHistoryFragment extends Fragment {
     private static final String TAG = "messagefragmentD";
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -60,12 +59,12 @@ public class MessageFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public MessageFragment() {
+    public MessageHistoryFragment() {
         // Required empty public constructor
     }
 
-    public static MessageFragment newInstance(String param1, String param2) {
-        MessageFragment fragment = new MessageFragment();
+    public static MessageHistoryFragment newInstance(String param1, String param2) {
+        MessageHistoryFragment fragment = new MessageHistoryFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -86,7 +85,7 @@ public class MessageFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_message, container, false);
+        View v = inflater.inflate(R.layout.fragment_message_history, container, false);
         toSend = (EditText) v.findViewById(R.id.to_send_editText);
         sendButton = (Button) v.findViewById(R.id.send_button);
         message_listView = (ListView) v.findViewById(R.id.message_listview);
