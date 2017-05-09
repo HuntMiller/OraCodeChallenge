@@ -82,6 +82,12 @@ public class MessageHistoryFragment extends Fragment {
     }
 
     @Override
+    public void onResume(){
+        super.onResume();
+        scrollChatToBottom();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -95,9 +101,10 @@ public class MessageHistoryFragment extends Fragment {
             public void onClick(View v) {
                 getChatMessageData();
                 if(cm.receiverUid != null){
-                    sendMessageToFirebaseUser(cm.receiverUid, cm);
+                    if(cm.message.length() > 0)
+                        sendMessageToFirebaseUser(cm.receiverUid, cm);
                     toSend.setText("");
-                    message_listView.setSelection(customAdapter.getCount() - 1);
+                    scrollChatToBottom();
                 }
                 else{
                     Toast.makeText(getContext(), "Encountered an error while trying to send this user a message", Toast.LENGTH_SHORT).show();
@@ -133,6 +140,13 @@ public class MessageHistoryFragment extends Fragment {
 
     public interface OnFragmentInteractionListener {
         void onMessageFragmentInteraction(Uri uri);
+    }
+
+    private void scrollChatToBottom(){
+        message_listView.post(new Runnable(){
+            public void run() {
+                message_listView.setSelection(message_listView.getCount() - 1);
+            }});
     }
 
     /*

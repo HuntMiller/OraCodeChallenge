@@ -2,13 +2,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.ora.hmill.orachat.fragment.MessageFragment">
-
+    tools:context="com.ora.hmill.oracodechallenge.fragment.MessageHistoryFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="5dp">
+        android:padding="5dp"
+        android:focusableInTouchMode="true">
 
         <ListView
             android:id="@+id/message_listview"
@@ -18,7 +18,8 @@
             android:layout_above="@+id/linearLayout2"
             android:layout_alignParentTop="true"
             android:divider="@null"
-            android:dividerHeight="0dp"/>
+            android:dividerHeight="0dp"
+            android:stackFromBottom="true"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -27,25 +28,36 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
-            android:id="@+id/linearLayout2">
+            android:id="@+id/linearLayout2" >
 
-            <EditText
-                android:id="@+id/to_send_editText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ems="10"
-                android:inputType="text|textAutoCorrect"
-                android:text="" />
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" >
+
+                    <EditText
+                        android:id="@+id/to_send_editText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:inputType="textCapSentences|textAutoCorrect|textAutoComplete|textMultiLine"
+                        android:text="" />
+                </LinearLayout>
+            </ScrollView>
 
             <Button
                 android:id="@+id/send_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Send"
                 android:background="@color/colorPrimary"
-                android:textColor="@color/colorWhite"/>
+                android:text="Send"
+                android:textColor="@color/colorWhite" />
         </LinearLayout>
     </RelativeLayout>
 

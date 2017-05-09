@@ -104,6 +104,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         getUserInfo();
         //setup Navigation header and view
         navSetup();
+        //Toggle FAB for screen rotations
+        toggleFab();
     }
 
     @Override
@@ -123,17 +125,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             return;
         }
 
-        if (true) {
-            //if not on messages, back returns to message fragment
-            if (navigationIndex != Constants.INDEX_MESSAGE_LIST) {
-                navigationIndex = Constants.INDEX_MESSAGE_LIST;
-                CURRENT_TAG = Constants.TAG_MESSAGE_LIST;
-                loadHomeFragment(true);
-                return;
-            }
-            if (navigationIndex == Constants.INDEX_MESSAGE_LIST && !drawer.isDrawerOpen(GravityCompat.START)) {
-                this.finishAffinity();
-            }
+        //if not on messages, back returns to message fragment
+        if (navigationIndex != Constants.INDEX_MESSAGE_LIST) {
+            navigationIndex = Constants.INDEX_MESSAGE_LIST;
+            CURRENT_TAG = Constants.TAG_MESSAGE_LIST;
+            loadHomeFragment(true);
+            return;
+        }
+        if (navigationIndex == Constants.INDEX_MESSAGE_LIST && !drawer.isDrawerOpen(GravityCompat.START)) {
+            this.finishAffinity();
         }
 
         super.onBackPressed();
@@ -141,7 +141,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
 
         // show menu only when home fragment is selected
         if (navigationIndex == Constants.INDEX_MESSAGE_LIST) {
@@ -163,7 +162,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     /*
     check if the user just logged in, if they did display welcome, if not keep displaying what was being displayed
      */
-    public void checkIfLogin(){
+    public void checkIfLogin() {
         Intent i = getIntent();
         //If user just logged in make sure app is on message list, then set to false so screen rotations don't mess things up
         if (i.getBooleanExtra("login", false)) {
@@ -254,12 +253,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     /*
     Check if a user is registed in the database, if not add them
      */
-    public void checkIfRegistered(){
+    public void checkIfRegistered() {
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
         ref.child("users").child(currentUID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if(dataSnapshot.exists()){
+                if (dataSnapshot.exists()) {
 
                 } else {
                     // User does not exist in database yet, add them
@@ -412,9 +411,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         new DownloadImageTask(profile_pic).execute(currentURL);
     }
 
-    private void setToolbarTitle(String title){
+    private void setToolbarTitle(String title) {
         String defTitle = "error";
-        switch(navigationIndex){
+        switch (navigationIndex) {
             case Constants.INDEX_MESSAGE_HISTORY:
                 defTitle = title;
                 break;
@@ -422,7 +421,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 defTitle = title;
                 break;
         }
-        if(!defTitle.equals("error"))
+        if (!defTitle.equals("error"))
             getSupportActionBar().setTitle(defTitle);
     }
 
@@ -431,7 +430,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
      */
     private void setToolbarTitle() {
         String title = "error";
-        switch(navigationIndex){
+        switch (navigationIndex) {
 
             case Constants.INDEX_MESSAGE_LIST:
                 title = Constants.MESSAGE_LIST_TOOLBAR_TITLE;
@@ -446,7 +445,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 title = Constants.SELECT_USER_TO_MESSAGE_TOOLBAR_TITLE;
                 break;
         }
-        if(!title.equals("error"))
+        if (!title.equals("error"))
             getSupportActionBar().setTitle(title);
     }
 
@@ -525,12 +524,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     // show or hide the fab
     private void toggleFab() {
-        if (navigationIndex == Constants.INDEX_MESSAGE_LIST){
+        if (navigationIndex == Constants.INDEX_MESSAGE_LIST && CURRENT_TAG == Constants.TAG_MESSAGE_LIST) {
             fab.show();
+        } else{
+            fab.hide();
         }
 
-        else
-            fab.hide();
     }
     /*
     Navigation / Toolbar </Stop>
@@ -546,8 +545,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     /*
     Call when loading fragment from another fragment (message fragment)
      */
-    public void loadHomeFragment(String tag, User user){
-        if(tag == Constants.TAG_MESSAGE_HISTORY){
+    public void loadHomeFragment(String tag, User user) {
+        if (tag == Constants.TAG_MESSAGE_HISTORY) {
             selectedUser = user;
             navigationIndex = Constants.INDEX_MESSAGE_HISTORY;
             CURRENT_TAG = tag;
@@ -574,7 +573,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // just close the navigation drawer
         if (getSupportFragmentManager().findFragmentByTag(CURRENT_TAG) != null) {
             drawer.closeDrawers();
-            toggleFab();
             return;
         }
 
