@@ -1,8 +1,7 @@
 # OraCodeChallenge
 Fixed repo, fixed app
 
-This is a chat / messenger style app, developed for an Ora Interactive code challenge. Note that it does not interact with the provided apiary's API, but instead a legitimate database (Firebase). This choice was made to hopefully show initiative to improve upon given standards. I do not want to devalue the concept of following rules and guidelines, as in a company setting these values are essential.
-
+This is a chat / messenger style app, developed for an Ora Interactive code challenge.
 APP SCREENSHOTS:  https://www.dropbox.com/sh/d59n1vm2svflsyr/AAB8JQl7aRnhSPBJCA49mKQNa?dl=0
 
 Deployment: 
@@ -14,7 +13,7 @@ Deployment:
 
 Testing: I did all testing on my Google Pixel XL.
 
-Features:
+Required Features:
 
 -Register: A user is registered into the database upon logging in with their Google Account.
 
