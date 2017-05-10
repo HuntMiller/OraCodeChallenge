@@ -5,7 +5,7 @@ This is a chat / messenger style app, developed for an Ora Interactive code chal
 
 APP SCREENSHOTS:  https://www.dropbox.com/sh/d59n1vm2svflsyr/AAB8JQl7aRnhSPBJCA49mKQNa?dl=0
 
-Deployment: I actually messed up the structure of the repo on my initial commit. The original repo can be found at https://github.com/HuntMiller/OraChat (contains commits).
+Deployment: 
 
 1. Open Android Studio
 2. File > New > Project From Version Control > Github  (URL:  https://github.com/HuntMiller/OraCodeChallenge.git)
