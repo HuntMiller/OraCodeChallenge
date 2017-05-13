@@ -62,6 +62,7 @@ import com.ora.hmill.oracodechallenge.fragment.ProfileFragment;
 import com.ora.hmill.oracodechallenge.fragment.SelectUserToMessageFragment;
 import com.ora.hmill.oracodechallenge.fragment.WelcomeFragment;
 import com.ora.hmill.oracodechallenge.other.Constants;
+import com.ora.hmill.oracodechallenge.other.DownloadImage;
 import com.ora.hmill.oracodechallenge.other.User;
 
 import java.io.InputStream;
@@ -344,30 +345,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 });
     }
 
-    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
-        ImageView bmImage;
-
-        public DownloadImageTask(ImageView bmImage) {
-            this.bmImage = bmImage;
-        }
-
-        protected Bitmap doInBackground(String... urls) {
-            String urldisplay = urls[0];
-            Bitmap mIcon = null;
-            try {
-                InputStream in = new java.net.URL(urldisplay).openStream();
-                mIcon = BitmapFactory.decodeStream(in);
-            } catch (Exception e) {
-                Log.e("Error", e.getMessage());
-                e.printStackTrace();
-            }
-            return mIcon;
-        }
-
-        protected void onPostExecute(Bitmap result) {
-            bmImage.setImageBitmap(result);
-        }
-    }
     /*
     Firebase </Stop>
      */
@@ -408,7 +385,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void loadNavigationHeader() {
         name_TextView.setText(currentUser);
         email_TextView.setText(currentEmail);
-        new DownloadImageTask(profile_pic).execute(currentURL);
+        //download to pic ImageView
+        DownloadImage dlImage = new DownloadImage(profile_pic);
+        //begin image download from URL
+        dlImage.execute(currentURL);
     }
 
     private void setToolbarTitle(String title) {

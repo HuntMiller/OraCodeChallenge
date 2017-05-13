@@ -50,6 +50,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.ora.hmill.oracodechallenge.R;
 import com.ora.hmill.oracodechallenge.activity.MainActivity;
+import com.ora.hmill.oracodechallenge.other.DownloadImage;
 import com.ora.hmill.oracodechallenge.other.User;
 
 import java.io.InputStream;
@@ -111,7 +112,10 @@ public class ProfileFragment extends Fragment {
         delete = (Button) v.findViewById(R.id.delete_account_button);
         save = (Button) v.findViewById(R.id.save_changes_button);
 
-        new DownloadImageTask(pic).execute(mAuth.getCurrentUser().getPhotoUrl().toString());
+        //download to pic ImageView
+        DownloadImage dlImage = new DownloadImage(pic);
+        //begin image download from URL
+        dlImage.execute(mAuth.getCurrentUser().getPhotoUrl().toString());
         getYourData();
 
         delete.setOnClickListener(new View.OnClickListener() {
@@ -225,34 +229,6 @@ public class ProfileFragment extends Fragment {
                         getActivity().finish();
                     }
                 });
-    }
-
-    /*
-    Download image from url
-     */
-    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
-        ImageView bmImage;
-
-        public DownloadImageTask(ImageView bmImage) {
-            this.bmImage = bmImage;
-        }
-
-        protected Bitmap doInBackground(String... urls) {
-            String urldisplay = urls[0];
-            Bitmap mIcon = null;
-            try {
-                InputStream in = new java.net.URL(urldisplay).openStream();
-                mIcon = BitmapFactory.decodeStream(in);
-            } catch (Exception e) {
-                Log.e("Error", e.getMessage());
-                e.printStackTrace();
-            }
-            return mIcon;
-        }
-
-        protected void onPostExecute(Bitmap result) {
-            bmImage.setImageBitmap(result);
-        }
     }
 
 }
