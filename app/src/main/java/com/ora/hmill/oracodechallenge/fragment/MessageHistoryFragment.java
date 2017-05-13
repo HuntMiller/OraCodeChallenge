@@ -155,14 +155,19 @@ public class MessageHistoryFragment extends Fragment {
     public void getChatMessageData(){
         cm = new ChatMessage();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
-        cm.message = toSend.getText().toString();
-        cm.timestamp = sdf.format(new java.util.Date());
-        cm.senderUid = MainActivity.currentUID;
+
         cm.sender = MainActivity.currentUser;
         cm.senderEmail = MainActivity.currentEmail;
-        cm.receiverUid = MainActivity.selectedUser.uid;
+        cm.senderUid = MainActivity.currentUID;
+        cm.senderURL = MainActivity.currentURL;
+
         cm.receiver = MainActivity.selectedUser.name;
         cm.receiverEmail = MainActivity.selectedUser.email;
+        cm.receiverUid = MainActivity.selectedUser.uid;
+        cm.receiverURL = MainActivity.selectedUser.url;
+
+        cm.message = toSend.getText().toString();
+        cm.timestamp = sdf.format(new java.util.Date());
     }
 
     /*

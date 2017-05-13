@@ -93,6 +93,7 @@ public class SelectUserToMessageFragment extends Fragment {
                         u.nickname = user.nickname;
                         u.birthday = user.birthday;
                         u.aboutme = user.aboutme;
+                        u.url = user.url;
                     }
                 }
                 ((MainActivity)getActivity()).loadHomeFragment(Constants.TAG_MESSAGE_HISTORY, u);

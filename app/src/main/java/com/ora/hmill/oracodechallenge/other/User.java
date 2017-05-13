@@ -16,6 +16,8 @@
 
 package com.ora.hmill.oracodechallenge.other;
 
+import android.graphics.Bitmap;
+
 public class User {
     public String uid;
     public String url;
@@ -24,14 +26,15 @@ public class User {
     public String nickname;
     public String birthday;
     public String aboutme;
+    public Bitmap bitmap;
 
     public User() {}
 
-    public User(String uid, String url, String name, String email, String nickname, String birthday, String aboutme) {
-        this.uid = uid;
-        this.url = url;
+    public User(String name, String email, String uid, String url, String nickname, String birthday, String aboutme, Bitmap bitmap) {
         this.name = name;
         this.email = email;
+        this.uid = uid;
+        this.url = url;
         this.nickname = nickname;
         this.birthday = birthday;
         this.aboutme = aboutme;

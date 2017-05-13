@@ -267,6 +267,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     user.name = currentUser;
                     user.email = currentEmail;
                     user.uid = currentUID;
+                    user.url = currentURL;
                     user.nickname = "";
                     user.birthday = "";
                     user.aboutme = "";
@@ -523,7 +524,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     /*
-    Call when loading fragment from another fragment (message fragment)
+    Call when loading fragment from another fragment (message history fragment)
      */
     public void loadHomeFragment(String tag, User user) {
         if (tag == Constants.TAG_MESSAGE_HISTORY) {

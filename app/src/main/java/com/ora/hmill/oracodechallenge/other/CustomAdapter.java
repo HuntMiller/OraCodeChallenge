@@ -23,8 +23,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ora.hmill.oracodechallenge.R;
 import com.ora.hmill.oracodechallenge.activity.MainActivity;
@@ -39,6 +41,7 @@ public class CustomAdapter extends ArrayAdapter<ChatMessage> implements View.OnC
     // View lookup
     private static class ViewHolder {
         LinearLayout messageContainer;
+        ImageView picture;
         TextView timeStamp;
         TextView message;
     }
@@ -76,6 +79,7 @@ public class CustomAdapter extends ArrayAdapter<ChatMessage> implements View.OnC
             LayoutInflater inflater = LayoutInflater.from(getContext());
             convertView = inflater.inflate(R.layout.row_item, parent, false);
             viewHolder.messageContainer = (LinearLayout) convertView.findViewById(R.id.messageContainer);
+            viewHolder.picture = (ImageView) convertView.findViewById(R.id.message_picture);
             viewHolder.message = (TextView) convertView.findViewById(R.id.message);
             viewHolder.timeStamp = (TextView) convertView.findViewById(R.id.timestamp);
 
@@ -90,14 +94,25 @@ public class CustomAdapter extends ArrayAdapter<ChatMessage> implements View.OnC
         //This is a message you sent
         if(chatMessage.senderUid.equals(MainActivity.currentUID)){
             viewHolder.messageContainer.setGravity(Gravity.RIGHT);
+            viewHolder.picture.setVisibility(View.GONE);
             viewHolder.message.setBackgroundResource(R.drawable.sent_message_bg);
             viewHolder.message.setTextColor(Color.WHITE);
         }
         //This is a message you received
         else{
             viewHolder.messageContainer.setGravity(Gravity.LEFT);
+            viewHolder.picture.setVisibility(View.VISIBLE);
             viewHolder.message.setBackgroundResource(R.drawable.received_message_bg);
             viewHolder.message.setTextColor(Color.BLACK);
+        }
+
+        //If a received message, set their picture
+        if(viewHolder.picture.getVisibility() == View.VISIBLE){
+            if(MainActivity.selectedUser.url != null){
+                DownloadImage dlImage = new DownloadImage(viewHolder.picture);
+                dlImage.execute(MainActivity.selectedUser.url);
+            }
+
         }
         viewHolder.message.setText(chatMessage.message);
         viewHolder.timeStamp.setText(chatMessage.timestamp);

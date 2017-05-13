@@ -18,17 +18,23 @@ package com.ora.hmill.oracodechallenge.other;
 
 public class ChatMessage {
     public String sender;
-    public String receiver;
-    public String senderUid;
-    public String receiverUid;
     public String senderEmail;
+    public String senderUid;
+    public String senderURL;
+
+    public String receiver;
     public String receiverEmail;
+    public String receiverUid;
+    public String receiverURL;
+
     public String message;
     public String timestamp;
 
     public ChatMessage() {}
 
-    public ChatMessage(String sender, String receiver, String senderUid, String receiverUid, String senderEmail, String receiverEmail, String message, String timestamp) {
+    public ChatMessage(String sender, String senderEmail, String senderUid, String senderURL,
+                       String receiver, String receiverEmail, String receiverUid, String receiverURL,
+                       String message, String timestamp) {
         this.sender = sender;
         this.receiver = receiver;
         this.senderUid = senderUid;
